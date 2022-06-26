@@ -1,6 +1,7 @@
 package server;
 
 import com.zeroc.Ice.*;
+import devices.DeviceImplementation;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -17,8 +18,11 @@ public class Server {
         Communicator communicator = com.zeroc.Ice.Util.initialize(args);
         //System.out.println(Arrays.toString(args));
         logger.info("Smart home server is starting...");
-        adapter = communicator.createObjectAdapterWithEndpoints(adapterName, "tcp -h 127.0.0.2 -p 10000 -z : udp -h 127.0.0.2 -p 10000 -z");
+        adapter = communicator.createObjectAdapterWithEndpoints(adapterName, "tcp -h localhost -p 10000: udp -h localhost -p 10000");
         logger.info("Adapter created!");
+
+        DeviceImplementation servant = null;
+
 
         adapter.add(new servants.Light(), com.zeroc.Ice.Util.stringToIdentity("light1"));
         adapter.add(new devices.DeviceImplementation(), com.zeroc.Ice.Util.stringToIdentity("device1"));

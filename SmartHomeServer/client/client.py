@@ -3,10 +3,9 @@ import os
 import sys
 import Ice
 
-from Home import DevicePrx
+from Home import *
 
 from commands import *
-
 
 class Command:
     def __init__(self, command, callback, desc, args_num):
@@ -35,6 +34,7 @@ class SmartHomeClient:
         commands = base_commands
         base = communicator.propertyToProxy('Device1.Proxy')
         self.devices_params.append(DeviceParams('Device1', DevicePrx.uncheckedCast(base), commands))
+        print(self.devices_params)
 
     def get_devices_string(self):
         av_devices = 'Available devices: '
@@ -49,7 +49,7 @@ class SmartHomeClient:
         self.print_devices()
         prefix = ''
         device_params = None
-        prompt_msg = '$ '
+        prompt_msg = '> '
         while self.is_running:
             text = input(prefix + prompt_msg)
             if text:
@@ -69,6 +69,7 @@ class SmartHomeClient:
                             if dp.name == args[0]:
                                 prefix = args[0]
                                 device_params = dp
+                                print(dp.__dict__)
                 else:
                     if args[0] == 'exit':
                         prefix = ''
@@ -94,7 +95,6 @@ class SmartHomeClient:
     def run(self):
         logging.info('Starting smart home client...')
         with Ice.initialize(sys.argv) as communicator:
-            print("176 works")
             self.init_device_params(communicator)
             self.run_console()
 
@@ -103,7 +103,6 @@ if __name__ == '__main__':
     try:
         logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.DEBUG)
         alert_client = SmartHomeClient()
-        print("184 works")
         alert_client.run()
         print('Smart home client shut down')
     except KeyboardInterrupt:
