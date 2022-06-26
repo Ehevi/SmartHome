@@ -1,5 +1,5 @@
 <state>
-  <timestamp value='1656253859751' />
+  <timestamp value='1656255913498' />
   <sourceSet name='default'>
     <source name='/home/ehevi/SmartHome/SmartHomeServer/slice/home.ice'>
       <file name='/home/ehevi/SmartHome/SmartHomeServer/build/generated-src/Home/HomeStaffStateException.java' />

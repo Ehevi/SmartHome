@@ -3,7 +3,7 @@ import os
 import sys
 import Ice
 
-from Home import *
+from Home import DevicePrx
 
 from commands import *
 
@@ -32,7 +32,7 @@ class SmartHomeClient:
                          Command('set-pstate', set_power_state, 'set power state to ON or OFF: set-pstate OFF', 1)]
 
         commands = base_commands
-        base = communicator.propertyToProxy('Device1.Proxy')
+        base = communicator.stringToProxy('device1:tcp -h localhost -p 10000: udp -h localhost -p 10000')
         self.devices_params.append(DeviceParams('Device1', DevicePrx.uncheckedCast(base), commands))
         print(self.devices_params)
 
