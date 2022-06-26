@@ -4,6 +4,7 @@ import sys
 import Ice
 
 from Home import DevicePrx
+from Home import LightPrx
 
 from commands import *
 
@@ -35,6 +36,12 @@ class SmartHomeClient:
         base = communicator.stringToProxy('device1:tcp -h localhost -p 10000: udp -h localhost -p 10000')
         self.devices_params.append(DeviceParams('Device1', DevicePrx.uncheckedCast(base), commands))
         print(self.devices_params)
+
+        light_commands = [Command('getBrightness', get_brightness, 'get brightness', 0)]
+        commands = light_commands
+        base = communicator.stringToProxy('light1:tcp -h localhost -p 10000: udp -h localhost -p 10000')
+        self.devices_params.append(DeviceParams('Light1', LightPrx.uncheckedCast(base), commands))
+
 
     def get_devices_string(self):
         av_devices = 'Available devices: '

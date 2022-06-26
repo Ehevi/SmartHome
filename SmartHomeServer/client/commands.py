@@ -20,3 +20,9 @@ def set_power_state(device, args):
             print('Unknown parameter {}'.format(pstate_str))
     except Exception as e:
         print(e)
+
+def get_brightness(device, args):
+    try:
+        print(device.getBrightness())
+    except Exception as e:
+        print(e)

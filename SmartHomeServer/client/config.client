@@ -1,1 +1,0 @@
-Device1.Proxy=device1:tcp -h 127.0.0.2 -p 10000:udp -h 127.0.0.2 -p 10000
