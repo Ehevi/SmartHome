@@ -25,7 +25,15 @@ dependencies {
 build {
     slice {
         java {
-            files = [file("./slice/Home.ice")]
+            files = [file("./slice/home.ice")]
+        }
+    }
+    doLast {
+//        project.mkdir('./pyclient/sliceGen')
+
+        exec {
+            workingDir '.'
+            commandLine 'slice2py', 'slice/home.ice', '--output-dir=client'
         }
     }
 }

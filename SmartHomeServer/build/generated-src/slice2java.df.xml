@@ -1,0 +1,17 @@
+<state>
+  <timestamp value='1656249335935' />
+  <sourceSet name='default'>
+    <source name='/home/ehevi/SmartHome/SmartHomeServer/slice/home.ice'>
+      <file name='/home/ehevi/SmartHome/SmartHomeServer/build/generated-src/Home/HomeStaffStateException.java' />
+      <file name='/home/ehevi/SmartHome/SmartHomeServer/build/generated-src/Home/PowerState.java' />
+      <file name='/home/ehevi/SmartHome/SmartHomeServer/build/generated-src/Home/Device.java' />
+      <file name='/home/ehevi/SmartHome/SmartHomeServer/build/generated-src/Home/Light.java' />
+      <file name='/home/ehevi/SmartHome/SmartHomeServer/build/generated-src/Home/DevicePrx.java' />
+      <file name='/home/ehevi/SmartHome/SmartHomeServer/build/generated-src/Home/_DevicePrxI.java' />
+      <file name='/home/ehevi/SmartHome/SmartHomeServer/build/generated-src/Home/LightPrx.java' />
+      <file name='/home/ehevi/SmartHome/SmartHomeServer/build/generated-src/Home/_LightPrxI.java' />
+    </source>
+    <arg value='/usr/bin/slice2java' />
+    <arg value='-I/usr/share/ice/slice' />
+  </sourceSet>
+</state>
