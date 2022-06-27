@@ -1,10 +1,14 @@
 import logging
 import os
 import sys
+
+from click import command
 import Ice
 
 from Home import DevicePrx
 from Home import LightPrx
+from Home import ColoredLightPrx
+from Home import DirectedLightPrx
 
 from commands import *
 
@@ -29,18 +33,25 @@ class SmartHomeClient:
         self.devices_params = []
 
     def init_device_params(self, communicator):
-        base_commands = [Command('pstate', get_power_state, 'check power state', 0),
-                         Command('set-pstate', set_power_state, 'set power state to ON or OFF: set-pstate OFF', 1)]
+        base_commands = [Command('get-state', get_power_state, 'Check power state', 0),
+                         Command('set-state', set_power_state, 'Set power state to ON or OFF. Example: set-state OFF', 1)]
 
         commands = base_commands
         base = communicator.stringToProxy('device1:tcp -h localhost -p 10000: udp -h localhost -p 10000')
         self.devices_params.append(DeviceParams('Device1', DevicePrx.uncheckedCast(base), commands))
         print(self.devices_params)
 
-        light_commands = [Command('getBrightness', get_brightness, 'get brightness', 0)]
-        commands = light_commands
+        light_commands = [Command('get-intensity', get_intensity, 'Get light intensity', 0),
+                            Command('set-intensity', set_intensity, 'Set light intensity to one of the following: LOW, MEDIUM, HIGH. Example: set-intensity LOW', 1)]
+        commands = base_commands + light_commands
         base = communicator.stringToProxy('light1:tcp -h localhost -p 10000: udp -h localhost -p 10000')
         self.devices_params.append(DeviceParams('Light1', LightPrx.uncheckedCast(base), commands))
+
+        color_light_commands = [Command('get-color', get_color, 'get color', 0),
+                                Command('set-color', set_color, 'set light color to one of the following: RED, BLUE, GREEN. Example: set-color GREEN', 1)]
+        commands = base_commands + light_commands + color_light_commands
+        base = communicator.stringToProxy('coloredLight1:tcp -h localhost -p 10000:udp -h localhost -p 10000')
+        self.devices_params.append(DeviceParams('ColoredLight1', ColoredLightPrx.uncheckedCast(base), commands))
 
 
     def get_devices_string(self):
@@ -108,6 +119,7 @@ class SmartHomeClient:
 
 if __name__ == '__main__':
     try:
+        print(sys.argv)
         logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.DEBUG)
         alert_client = SmartHomeClient()
         alert_client.run()

@@ -20,16 +20,16 @@
 
 package Home;
 
-public interface Light extends com.zeroc.Ice.Object
+public interface Light extends Device
 {
-    void setBrightness(double b, com.zeroc.Ice.Current current)
-        throws HomeStaffStateException;
+    LightIntensity getIntensity(com.zeroc.Ice.Current current);
 
-    double getBrightness(com.zeroc.Ice.Current current)
-        throws HomeStaffStateException;
+    void setIntensity(LightIntensity intensity, com.zeroc.Ice.Current current)
+        throws UnknownLightIntensity;
 
     static final String[] _iceIds =
     {
+        "::Home::Device",
         "::Home::Light",
         "::Ice::Object"
     };
@@ -51,38 +51,39 @@ public interface Light extends com.zeroc.Ice.Object
         return "::Home::Light";
     }
 
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_setBrightness(Light obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-        throws com.zeroc.Ice.UserException
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        com.zeroc.Ice.InputStream istr = inS.startReadParams();
-        double iceP_b;
-        iceP_b = istr.readDouble();
-        inS.endReadParams();
-        obj.setBrightness(iceP_b, current);
-        return inS.setResult(inS.writeEmptyParams());
-    }
-
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getBrightness(Light obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-        throws com.zeroc.Ice.UserException
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getIntensity(Light obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
-        double ret = obj.getBrightness(current);
+        LightIntensity ret = obj.getIntensity(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeDouble(ret);
+        LightIntensity.ice_write(ostr, ret);
         inS.endWriteParams(ostr);
         return inS.setResult(ostr);
     }
 
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_setIntensity(Light obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+        throws com.zeroc.Ice.UserException
+    {
+        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        com.zeroc.Ice.InputStream istr = inS.startReadParams();
+        LightIntensity iceP_intensity;
+        iceP_intensity = LightIntensity.ice_read(istr);
+        inS.endReadParams();
+        obj.setIntensity(iceP_intensity, current);
+        return inS.setResult(inS.writeEmptyParams());
+    }
+
     final static String[] _iceOps =
     {
-        "getBrightness",
+        "getIntensity",
+        "getPowerState",
         "ice_id",
         "ice_ids",
         "ice_isA",
         "ice_ping",
-        "setBrightness"
+        "setIntensity",
+        "setPowerState"
     };
 
     @Override
@@ -99,27 +100,35 @@ public interface Light extends com.zeroc.Ice.Object
         {
             case 0:
             {
-                return _iceD_getBrightness(this, in, current);
+                return _iceD_getIntensity(this, in, current);
             }
             case 1:
             {
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
+                return Device._iceD_getPowerState(this, in, current);
             }
             case 2:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
             }
             case 3:
             {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
             }
             case 4:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
             }
             case 5:
             {
-                return _iceD_setBrightness(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
+            }
+            case 6:
+            {
+                return _iceD_setIntensity(this, in, current);
+            }
+            case 7:
+            {
+                return Device._iceD_setPowerState(this, in, current);
             }
         }
 

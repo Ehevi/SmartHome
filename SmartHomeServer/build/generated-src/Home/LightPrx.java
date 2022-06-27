@@ -20,102 +20,84 @@
 
 package Home;
 
-public interface LightPrx extends com.zeroc.Ice.ObjectPrx
+public interface LightPrx extends DevicePrx
 {
-    default void setBrightness(double b)
-        throws HomeStaffStateException
+    default LightIntensity getIntensity()
     {
-        setBrightness(b, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        return getIntensity(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default void setBrightness(double b, java.util.Map<String, String> context)
-        throws HomeStaffStateException
+    default LightIntensity getIntensity(java.util.Map<String, String> context)
     {
-        try
-        {
-            _iceI_setBrightnessAsync(b, context, true).waitForResponseOrUserEx();
-        }
-        catch(HomeStaffStateException ex)
-        {
-            throw ex;
-        }
-        catch(com.zeroc.Ice.UserException ex)
-        {
-            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
-        }
+        return _iceI_getIntensityAsync(context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<Void> setBrightnessAsync(double b)
+    default java.util.concurrent.CompletableFuture<LightIntensity> getIntensityAsync()
     {
-        return _iceI_setBrightnessAsync(b, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_getIntensityAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<Void> setBrightnessAsync(double b, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<LightIntensity> getIntensityAsync(java.util.Map<String, String> context)
     {
-        return _iceI_setBrightnessAsync(b, context, false);
+        return _iceI_getIntensityAsync(context, false);
     }
 
-    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_setBrightnessAsync(double iceP_b, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<LightIntensity> _iceI_getIntensityAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "setBrightness", null, sync, _iceE_setBrightness);
-        f.invoke(true, context, null, ostr -> {
-                     ostr.writeDouble(iceP_b);
-                 }, null);
-        return f;
-    }
-
-    static final Class<?>[] _iceE_setBrightness =
-    {
-        HomeStaffStateException.class
-    };
-
-    default double getBrightness()
-        throws HomeStaffStateException
-    {
-        return getBrightness(com.zeroc.Ice.ObjectPrx.noExplicitContext);
-    }
-
-    default double getBrightness(java.util.Map<String, String> context)
-        throws HomeStaffStateException
-    {
-        try
-        {
-            return _iceI_getBrightnessAsync(context, true).waitForResponseOrUserEx();
-        }
-        catch(HomeStaffStateException ex)
-        {
-            throw ex;
-        }
-        catch(com.zeroc.Ice.UserException ex)
-        {
-            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
-        }
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.Double> getBrightnessAsync()
-    {
-        return _iceI_getBrightnessAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.Double> getBrightnessAsync(java.util.Map<String, String> context)
-    {
-        return _iceI_getBrightnessAsync(context, false);
-    }
-
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.Double> _iceI_getBrightnessAsync(java.util.Map<String, String> context, boolean sync)
-    {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.Double> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getBrightness", null, sync, _iceE_getBrightness);
+        com.zeroc.IceInternal.OutgoingAsync<LightIntensity> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getIntensity", null, sync, null);
         f.invoke(true, context, null, null, istr -> {
-                     double ret;
-                     ret = istr.readDouble();
+                     LightIntensity ret;
+                     ret = LightIntensity.ice_read(istr);
                      return ret;
                  });
         return f;
     }
 
-    static final Class<?>[] _iceE_getBrightness =
+    default void setIntensity(LightIntensity intensity)
+        throws UnknownLightIntensity
     {
-        HomeStaffStateException.class
+        setIntensity(intensity, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default void setIntensity(LightIntensity intensity, java.util.Map<String, String> context)
+        throws UnknownLightIntensity
+    {
+        try
+        {
+            _iceI_setIntensityAsync(intensity, context, true).waitForResponseOrUserEx();
+        }
+        catch(UnknownLightIntensity ex)
+        {
+            throw ex;
+        }
+        catch(com.zeroc.Ice.UserException ex)
+        {
+            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
+        }
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> setIntensityAsync(LightIntensity intensity)
+    {
+        return _iceI_setIntensityAsync(intensity, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> setIntensityAsync(LightIntensity intensity, java.util.Map<String, String> context)
+    {
+        return _iceI_setIntensityAsync(intensity, context, false);
+    }
+
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_setIntensityAsync(LightIntensity iceP_intensity, java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "setIntensity", null, sync, _iceE_setIntensity);
+        f.invoke(true, context, null, ostr -> {
+                     LightIntensity.ice_write(ostr, iceP_intensity);
+                 }, null);
+        return f;
+    }
+
+    static final Class<?>[] _iceE_setIntensity =
+    {
+        UnknownLightIntensity.class
     };
 
     /**

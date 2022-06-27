@@ -20,25 +20,25 @@
 
 package Home;
 
-public class HomeStaffStateException extends com.zeroc.Ice.UserException
+public class UnknownLightIntensity extends com.zeroc.Ice.UserException
 {
-    public HomeStaffStateException()
+    public UnknownLightIntensity()
     {
         this.reason = "";
     }
 
-    public HomeStaffStateException(Throwable cause)
+    public UnknownLightIntensity(Throwable cause)
     {
         super(cause);
         this.reason = "";
     }
 
-    public HomeStaffStateException(String reason)
+    public UnknownLightIntensity(String reason)
     {
         this.reason = reason;
     }
 
-    public HomeStaffStateException(String reason, Throwable cause)
+    public UnknownLightIntensity(String reason, Throwable cause)
     {
         super(cause);
         this.reason = reason;
@@ -46,7 +46,7 @@ public class HomeStaffStateException extends com.zeroc.Ice.UserException
 
     public String ice_id()
     {
-        return "::Home::HomeStaffStateException";
+        return "::Home::UnknownLightIntensity";
     }
 
     public String reason;
@@ -54,7 +54,7 @@ public class HomeStaffStateException extends com.zeroc.Ice.UserException
     @Override
     protected void _writeImpl(com.zeroc.Ice.OutputStream ostr_)
     {
-        ostr_.startSlice("::Home::HomeStaffStateException", -1, true);
+        ostr_.startSlice("::Home::UnknownLightIntensity", -1, true);
         ostr_.writeString(reason);
         ostr_.endSlice();
     }
@@ -67,5 +67,5 @@ public class HomeStaffStateException extends com.zeroc.Ice.UserException
         istr_.endSlice();
     }
 
-    public static final long serialVersionUID = -2551717522755684498L;
+    public static final long serialVersionUID = 5437615480602642238L;
 }
