@@ -1,14 +1,12 @@
 package server;
 
 import com.zeroc.Ice.*;
-import devices.DeviceImplementation;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Server {
     public static final Logger logger = Logger.getLogger(Server.class.getName());
-    // private List<DeviceImplementation>
     private static String adapterName = "IceAdapter";
     private static ObjectAdapter adapter;
 
