@@ -15,23 +15,23 @@ public class Server {
     public static void main(String[] args) {
         Communicator communicator = com.zeroc.Ice.Util.initialize(args);
         System.out.println(Arrays.toString(args));
-        logger.info("Smart home server is starting...");
         adapter = communicator.createObjectAdapter(adapterName);
-        logger.info("Adapter created!");
-
-        DeviceImplementation servant = null;
-
-        adapter.add(new devices.DeviceImplementation(), com.zeroc.Ice.Util.stringToIdentity("device1"));
-        adapter.add(new devices.LightImplementation(), com.zeroc.Ice.Util.stringToIdentity("light1"));
-        adapter.add(new devices.ColoredLightImplementation(), com.zeroc.Ice.Util.stringToIdentity("coloredLight1"));
-        adapter.add(new devices.DirectedLightImplementation(), com.zeroc.Ice.Util.stringToIdentity("directedLight1"));
-        adapter.add(new devices.DoorImplementation(), com.zeroc.Ice.Util.stringToIdentity("door1"));
-        adapter.add(new devices.ThermostatImplementation(), com.zeroc.Ice.Util.stringToIdentity("thermostat1"));
-        // initObjects();
-
+        init();
         adapter.activate();
-        logger.info("Adapter activated");
+        logger.info("Smart home server is running...");
         communicator.waitForShutdown();
 
+    }
+
+    public static void init() {
+        adapter.add(new devices.DeviceImplementation(), com.zeroc.Ice.Util.stringToIdentity("DeviceSample"));
+        adapter.add(new devices.LightImplementation(), com.zeroc.Ice.Util.stringToIdentity("CeilingLight"));
+        adapter.add(new devices.LightImplementation(), com.zeroc.Ice.Util.stringToIdentity("RecessedLight"));
+        adapter.add(new devices.LightImplementation(), com.zeroc.Ice.Util.stringToIdentity("WallScone"));
+        adapter.add(new devices.ColoredLightImplementation(), com.zeroc.Ice.Util.stringToIdentity("BlissBulb"));
+        adapter.add(new devices.DirectedLightImplementation(), com.zeroc.Ice.Util.stringToIdentity("TrackLight"));
+        adapter.add(new devices.DoorImplementation(), com.zeroc.Ice.Util.stringToIdentity("FrontDoor"));
+        adapter.add(new devices.DoorImplementation(), com.zeroc.Ice.Util.stringToIdentity("BackDoor"));
+        adapter.add(new devices.ThermostatImplementation(), com.zeroc.Ice.Util.stringToIdentity("Thermostat"));
     }
 }

@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49969bfc-3fa6-4968-9184-196fb889112d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/devices/DirectedLightImplementation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/devices/DoorImplementation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/devices/ThermostatImplementation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
@@ -19,8 +16,6 @@
       <change beforePath="$PROJECT_DIR$/build/generated-src/slice2java.df.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/generated-src/slice2java.df.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/commands.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/commands.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/client1.cfg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -150,7 +145,7 @@
       <workItem from="1656245836576" duration="10647000" />
       <workItem from="1656273482309" duration="1389000" />
       <workItem from="1656314424966" duration="274000" />
-      <workItem from="1656315030478" duration="9720000" />
+      <workItem from="1656315030478" duration="11638000" />
     </task>
     <servers />
   </component>

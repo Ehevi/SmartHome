@@ -12,9 +12,6 @@ from Home import ThermostatPrx
 
 from commands import *
 
-#port = 10001
-#port = 10000
-
 class Command:
     def __init__(self, command, callback, desc, args_num):
         self.command = command
@@ -37,53 +34,60 @@ class SmartHomeClient:
         self.port = port
 
     def init_device_params(self, communicator):
-        base_commands = [Command('get-state', get_power_state, 'Check power state', 0),
-                         Command('set-state', set_power_state, 'Set power state to ON or OFF. Example: set-state OFF', 1)]
+        # Sample device
+        base_commands = [Command('get-power-state', get_power_state, 'Check power state', 0),
+                         Command('set-power-state', set_power_state, 'Set power state to ON or OFF. Example: set-state OFF', 1)]
 
         commands = base_commands
-        base = communicator.stringToProxy('device1:tcp -h localhost -p ' + port + ': udp -h localhost -p ' + port)
-        self.devices_params.append(DeviceParams('Device1', DevicePrx.uncheckedCast(base), commands))
-        print(self.devices_params)
+        base = communicator.stringToProxy('DeviceSample:tcp -h localhost -p ' + port + ': udp -h localhost -p ' + port)
+        self.devices_params.append(DeviceParams('DeviceSample', DevicePrx.uncheckedCast(base), commands))
 
+        # Lights
         light_commands = [Command('get-intensity', get_intensity, 'Get light intensity', 0),
                             Command('set-intensity', set_intensity, 'Set light intensity to one of the following: LOW, MEDIUM, HIGH. Example: set-intensity LOW', 1)]
         commands = base_commands + light_commands
-        base = communicator.stringToProxy('light1:tcp -h localhost -p ' + port + ': udp -h localhost -p ' + port)
-        self.devices_params.append(DeviceParams('Light1', LightPrx.uncheckedCast(base), commands))
+        base = communicator.stringToProxy('CeilingLight:tcp -h localhost -p ' + port + ': udp -h localhost -p ' + port)
+        self.devices_params.append(DeviceParams('CeilingLight', LightPrx.uncheckedCast(base), commands))
+
+        base = communicator.stringToProxy('RecessedLight:tcp -h localhost -p ' + port + ': udp -h localhost -p ' + port)
+        self.devices_params.append(DeviceParams('RecessedLight', LightPrx.uncheckedCast(base), commands))
+
+        base = communicator.stringToProxy('WallScone:tcp -h localhost -p ' + port + ': udp -h localhost -p ' + port)
+        self.devices_params.append(DeviceParams('WallScone', LightPrx.uncheckedCast(base), commands))
 
         color_light_commands = [Command('get-color', get_color, 'get color', 0),
                                 Command('set-color', set_color, 'set light color to one of the following: RED, BLUE, GREEN. Example: set-color GREEN', 1)]
         commands = base_commands + light_commands + color_light_commands
-        base = communicator.stringToProxy('coloredLight1:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port)
-        self.devices_params.append(DeviceParams('ColoredLight1', ColoredLightPrx.uncheckedCast(base), commands))
+        base = communicator.stringToProxy('BlissBulb:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port)
+        self.devices_params.append(DeviceParams('BlissBulb', ColoredLightPrx.uncheckedCast(base), commands))
 
         directed_light_commands = [Command('get-direction', get_direction, 'Get light direction', 0),
                                     Command('set-direction', set_direction, 'Set light direction to one of the following: NORTH, SOUTH, EAST, WEST. Example: set-direction WEST', 1)]
         commands = base_commands + light_commands + directed_light_commands
-        base = communicator.stringToProxy('directedLight1:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port)
-        self.devices_params.append(DeviceParams('DirectedLight1', DirectedLightPrx.uncheckedCast(base), commands))
+        base = communicator.stringToProxy('TrackLight:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port)
+        self.devices_params.append(DeviceParams('TrackLight', DirectedLightPrx.uncheckedCast(base), commands))
 
+        # Doors
         door_commands = [Command('get-door-state', get_door_state, 'Get door state', 0),
                         Command('set-door-state', set_door_state, 'Open or close the door. Example: set-door-state OPEN', 1)]
         commands = base_commands + door_commands
-        base = communicator.stringToProxy('door1:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port )
-        self.devices_params.append(DeviceParams('Door1', DoorPrx.uncheckedCast(base), commands))
+        base = communicator.stringToProxy('FrontDoor:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port )
+        self.devices_params.append(DeviceParams('FrontDoor', DoorPrx.uncheckedCast(base), commands))
 
+        base = communicator.stringToProxy('BackDoor:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port )
+        self.devices_params.append(DeviceParams('BackDoor', DoorPrx.uncheckedCast(base), commands))
+
+        # Thermostat
         thermostat_commands = [Command('get-temp', get_temp, 'Get temperature', 0),
                                 Command('set-temp', set_temp, 'Set temperature. Example: set-temp 25', 1)]
         commands = base_commands + thermostat_commands
-        base = communicator.stringToProxy('thermostat1:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port)
-        self.devices_params.append(DeviceParams('Thermostat1', ThermostatPrx.uncheckedCast(base), commands))
-
-
-    def get_devices_string(self):
-        av_devices = 'Available devices: '
-        for device_params in self.devices_params:
-            av_devices += device_params.name + ' '
-        return av_devices
+        base = communicator.stringToProxy('Thermostat:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port)
+        self.devices_params.append(DeviceParams('Thermostat', ThermostatPrx.uncheckedCast(base), commands))
 
     def print_devices(self):
-        logging.info(self.get_devices_string())
+        logging.info('Available devices:')
+        for device_params in self.devices_params:
+            print('***', device_params.name)
 
     def run_console(self):
         self.print_devices()
@@ -105,7 +109,7 @@ class SmartHomeClient:
                         print('*** exit        : shut down')
                         print('***')
                     elif args[0] == 'devices':
-                        print(self.get_devices_string())
+                        self.print_devices()
                     else:
                         for dp in self.devices_params:
                             if dp.name == args[0]:
@@ -117,11 +121,11 @@ class SmartHomeClient:
                     elif args[0] == 'help':
                         print('***')
                         for command in device_params.commands:
-                            print('***', command.command.ljust(14), ':', command.desc)
-                        print('*** exit           : Go back')
+                            print('***', command.command.ljust(15), ':', command.desc)
+                        print('*** exit            : Go back')
                         print('***')
                     elif args[0] == 'devices':
-                        print(self.get_devices_string())
+                        self.print_devices()
                     else:
                         command_found = False
                         for command in device_params.commands:
@@ -144,14 +148,16 @@ class SmartHomeClient:
 
 
 if __name__ == '__main__':
+    if (len(sys.argv) < 2):
+        print('Server specification is required')
+        sys.exit(0)
     server = sys.argv[1]
-    print(sys.argv)
     if (server == 'server1'):
         port = '10001'
     elif (server == 'server2'):
         port = '10000'
     else:
-        print('Please specify the server connection.')
+        print('Server unknown')
         sys.exit(0)
     try:
         logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.DEBUG)
