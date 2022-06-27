@@ -4,7 +4,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'com.zeroc.gradle.ice-builder.slice'
 
-
 group 'org.example'
 version '1.0-SNAPSHOT'
 
@@ -21,7 +20,6 @@ dependencies {
 
 }
 
-
 build {
     slice {
         java {
@@ -29,8 +27,6 @@ build {
         }
     }
     doLast {
-//        project.mkdir('./pyclient/sliceGen')
-
         exec {
             workingDir '.'
             commandLine 'slice2py', 'slice/home.ice', '--output-dir=client'
