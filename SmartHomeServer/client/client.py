@@ -1,16 +1,19 @@
 import logging
 import os
 import sys
-
-from click import command
 import Ice
 
 from Home import DevicePrx
 from Home import LightPrx
 from Home import ColoredLightPrx
 from Home import DirectedLightPrx
+from Home import DoorPrx
+from Home import ThermostatPrx
 
 from commands import *
+
+#port = 10001
+#port = 10000
 
 class Command:
     def __init__(self, command, callback, desc, args_num):
@@ -28,30 +31,49 @@ class DeviceParams:
 
 
 class SmartHomeClient:
-    def __init__(self):
+    def __init__(self, port):
         self.is_running = True
         self.devices_params = []
+        self.port = port
 
     def init_device_params(self, communicator):
         base_commands = [Command('get-state', get_power_state, 'Check power state', 0),
                          Command('set-state', set_power_state, 'Set power state to ON or OFF. Example: set-state OFF', 1)]
 
         commands = base_commands
-        base = communicator.stringToProxy('device1:tcp -h localhost -p 10000: udp -h localhost -p 10000')
+        base = communicator.stringToProxy('device1:tcp -h localhost -p ' + port + ': udp -h localhost -p ' + port)
         self.devices_params.append(DeviceParams('Device1', DevicePrx.uncheckedCast(base), commands))
         print(self.devices_params)
 
         light_commands = [Command('get-intensity', get_intensity, 'Get light intensity', 0),
                             Command('set-intensity', set_intensity, 'Set light intensity to one of the following: LOW, MEDIUM, HIGH. Example: set-intensity LOW', 1)]
         commands = base_commands + light_commands
-        base = communicator.stringToProxy('light1:tcp -h localhost -p 10000: udp -h localhost -p 10000')
+        base = communicator.stringToProxy('light1:tcp -h localhost -p ' + port + ': udp -h localhost -p ' + port)
         self.devices_params.append(DeviceParams('Light1', LightPrx.uncheckedCast(base), commands))
 
         color_light_commands = [Command('get-color', get_color, 'get color', 0),
                                 Command('set-color', set_color, 'set light color to one of the following: RED, BLUE, GREEN. Example: set-color GREEN', 1)]
         commands = base_commands + light_commands + color_light_commands
-        base = communicator.stringToProxy('coloredLight1:tcp -h localhost -p 10000:udp -h localhost -p 10000')
+        base = communicator.stringToProxy('coloredLight1:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port)
         self.devices_params.append(DeviceParams('ColoredLight1', ColoredLightPrx.uncheckedCast(base), commands))
+
+        directed_light_commands = [Command('get-direction', get_direction, 'Get light direction', 0),
+                                    Command('set-direction', set_direction, 'Set light direction to one of the following: NORTH, SOUTH, EAST, WEST. Example: set-direction WEST', 1)]
+        commands = base_commands + light_commands + directed_light_commands
+        base = communicator.stringToProxy('directedLight1:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port)
+        self.devices_params.append(DeviceParams('DirectedLight1', DirectedLightPrx.uncheckedCast(base), commands))
+
+        door_commands = [Command('get-door-state', get_door_state, 'Get door state', 0),
+                        Command('set-door-state', set_door_state, 'Open or close the door. Example: set-door-state OPEN', 1)]
+        commands = base_commands + door_commands
+        base = communicator.stringToProxy('door1:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port )
+        self.devices_params.append(DeviceParams('Door1', DoorPrx.uncheckedCast(base), commands))
+
+        thermostat_commands = [Command('get-temp', get_temp, 'Get temperature', 0),
+                                Command('set-temp', set_temp, 'Set temperature. Example: set-temp 25', 1)]
+        commands = base_commands + thermostat_commands
+        base = communicator.stringToProxy('thermostat1:tcp -h localhost -p ' + port + ':udp -h localhost -p ' + port)
+        self.devices_params.append(DeviceParams('Thermostat1', ThermostatPrx.uncheckedCast(base), commands))
 
 
     def get_devices_string(self):
@@ -76,10 +98,12 @@ class SmartHomeClient:
                     if args[0] == 'exit':
                         self.is_running = False
                     elif args[0] == 'help':
-                        print('device_id - enter device control mode')
-                        print('devices - show available devices')
-                        print('help - show help')
-                        print('exit - shut down client')
+                        print('***')
+                        print('*** <device_id> : enter device control mode')
+                        print('*** devices     : list available devices')
+                        print('*** help        : here you are')
+                        print('*** exit        : shut down')
+                        print('***')
                     elif args[0] == 'devices':
                         print(self.get_devices_string())
                     else:
@@ -87,13 +111,15 @@ class SmartHomeClient:
                             if dp.name == args[0]:
                                 prefix = args[0]
                                 device_params = dp
-                                print(dp.__dict__)
                 else:
                     if args[0] == 'exit':
                         prefix = ''
                     elif args[0] == 'help':
+                        print('***')
                         for command in device_params.commands:
-                            print(command.command, ' - ', command.desc)
+                            print('***', command.command.ljust(14), ':', command.desc)
+                        print('*** exit           : Go back')
+                        print('***')
                     elif args[0] == 'devices':
                         print(self.get_devices_string())
                     else:
@@ -104,7 +130,7 @@ class SmartHomeClient:
                                     command.callback(device_params.device_prx, args)
                                 else:
                                     print('Wrong number of parameters')
-                                    print(command.command, ' - ', command.desc)
+                                    print(command.command, ':', command.desc)
                                 command_found = True
                                 break
                         if not command_found:
@@ -118,10 +144,18 @@ class SmartHomeClient:
 
 
 if __name__ == '__main__':
+    server = sys.argv[1]
+    print(sys.argv)
+    if (server == 'server1'):
+        port = '10001'
+    elif (server == 'server2'):
+        port = '10000'
+    else:
+        print('Please specify the server connection.')
+        sys.exit(0)
     try:
-        print(sys.argv)
         logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.DEBUG)
-        alert_client = SmartHomeClient()
+        alert_client = SmartHomeClient(port)
         alert_client.run()
         print('Smart home client shut down')
     except KeyboardInterrupt:

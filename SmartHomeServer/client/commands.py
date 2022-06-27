@@ -1,8 +1,8 @@
 from Home import PowerState
 from Home import LightIntensity
 from Home import LightColor
-#from Home.AC import PollutionLevel
-#from Home.Kitchen import BakingSide, BakingParams
+from Home import LightDirection
+from Home import DoorState
 
 def get_power_state(device, args):
     try:
@@ -52,9 +52,58 @@ def set_color(device, args):
     try:
         if color == 'RED':
             device.setColor(LightColor.RED)
-        if color == 'BLUE':
+        elif color == 'BLUE':
             device.setColor(LightColor.BLUE)
-        if color == 'GREEN':
+        elif color == 'GREEN':
             device.setColor(LightColor.GREEN)
+    except Exception as e:
+        print(e)
+
+def get_direction(device, args):
+    try:
+        print(device.getDirection())
+    except Exception as e:
+        print(e)
+
+def set_direction(device, args):
+    direction = args[1]
+    try:
+        if direction == 'WEST':
+            device.setDirection(LightDirection.WEST)
+        elif direction == 'EAST':
+            device.setDirection(LightDirection.EAST)
+        elif direction == 'SOUTH':
+            device.setDirection(LightDirection.SOUTH)
+        elif direction == 'NORTH':
+            device.setDirection(LightDirection.NORTH)
+    except Exception as e:
+        print(e)
+
+def get_door_state(device, args):
+    try:
+        print(device.getState())
+    except Exception as e:
+        print(e)
+
+def set_door_state(device, args):
+    state = args[1]
+    try:
+        if state == 'OPEN':
+            device.setState(DoorState.OPEN)
+        elif state == 'CLOSED':
+            device.setState(DoorState.CLOSED)
+    except Exception as e:
+        print(e)
+
+def get_temp(device, args):
+    try:
+        print(device.getTemperature())
+    except Exception as e:
+        print(e)
+
+def set_temp(device, args):
+    temp = args[1]
+    try:
+        device.setTemperature(temp)
     except Exception as e:
         print(e)
