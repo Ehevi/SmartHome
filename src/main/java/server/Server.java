@@ -11,14 +11,14 @@ public class Server {
     private static ObjectAdapter adapter;
 
     public static void main(String[] args) {
-        Communicator communicator = com.zeroc.Ice.Util.initialize(args);
         System.out.println(Arrays.toString(args));
-        adapter = communicator.createObjectAdapter(adapterName);
-        init();
-        adapter.activate();
-        logger.info("Smart home server is running...");
-        communicator.waitForShutdown();
-
+        try(Communicator communicator = com.zeroc.Ice.Util.initialize(args)) {
+            adapter = communicator.createObjectAdapter(adapterName);
+            init();
+            adapter.activate();
+            logger.info("Smart home server is running...");
+            communicator.waitForShutdown();
+        }
     }
 
     public static void init() {

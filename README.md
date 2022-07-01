@@ -21,7 +21,7 @@ Pass one of the [config](https://github.com/Ehevi/SmartHome/tree/main/config) fi
 ![configggg](https://user-images.githubusercontent.com/48785655/175977470-1426c159-7a6a-4325-b7b5-d1b6140270c1.png)
 
 ### Client
-Open the terminal in the `~/SmartHome/client` directory and run the client. The parameter you pass is the name of the corresponding server (assuming that one of the provided config file is being used).
+Open the terminal in the `~/SmartHome/client` directory and run the client. The parameter you pass is the name of the corresponding server (assuming that one of the provided config files is being used).
 ```
 python3 client.py server1
 ```
